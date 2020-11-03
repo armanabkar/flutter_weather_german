@@ -5,6 +5,7 @@ import 'package:flutter_weather/src/widgets/forecast_horizontal_widget.dart';
 import 'package:flutter_weather/src/widgets/value_tile.dart';
 import 'package:flutter_weather/src/widgets/weather_swipe_pager.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class WeatherWidget extends StatelessWidget {
   final Weather weather;
@@ -13,6 +14,7 @@ class WeatherWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +28,7 @@ class WeatherWidget extends StatelessWidget {
                 fontSize: 25),
           ),
           SizedBox(
-            height: 20,
+            height: 17,
           ),
           Text(
             this.weather.description.toUpperCase(),
@@ -42,7 +44,7 @@ class WeatherWidget extends StatelessWidget {
               color:
                   AppStateContainer.of(context).theme.accentColor.withAlpha(50),
             ),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(7),
           ),
           ForecastHorizontal(weathers: weather.forecast),
           Padding(
@@ -50,10 +52,37 @@ class WeatherWidget extends StatelessWidget {
               color:
                   AppStateContainer.of(context).theme.accentColor.withAlpha(50),
             ),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(7),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            ValueTile("wind speed", '${this.weather.windSpeed} m/s'),
+            ValueTile("Windgeschwindigkeit", '${this.weather.windSpeed} m/s'),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Center(
+                  child: Container(
+                width: 1,
+                height: 30,
+                color: AppStateContainer.of(context)
+                    .theme
+                    .accentColor
+                    .withAlpha(50),
+              )),
+            ),
+            ValueTile("Feuchtigkeit", '${this.weather.humidity}%'),
+          ]),
+          Padding(
+            child: Divider(
+              color:
+                  AppStateContainer.of(context).theme.accentColor.withAlpha(50),
+            ),
+            padding: EdgeInsets.all(5),
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            ValueTile(
+                "Sonnenaufgang",
+                DateFormat('h:m a', 'de').format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                        this.weather.sunrise * 1000))),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Center(
@@ -67,38 +96,10 @@ class WeatherWidget extends StatelessWidget {
               )),
             ),
             ValueTile(
-                "sunrise",
-                DateFormat('h:m a').format(DateTime.fromMillisecondsSinceEpoch(
-                    this.weather.sunrise * 1000))),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Center(
-                  child: Container(
-                width: 1,
-                height: 30,
-                color: AppStateContainer.of(context)
-                    .theme
-                    .accentColor
-                    .withAlpha(50),
-              )),
-            ),
-            ValueTile(
-                "sunset",
-                DateFormat('h:m a').format(DateTime.fromMillisecondsSinceEpoch(
-                    this.weather.sunset * 1000))),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Center(
-                  child: Container(
-                width: 1,
-                height: 30,
-                color: AppStateContainer.of(context)
-                    .theme
-                    .accentColor
-                    .withAlpha(50),
-              )),
-            ),
-            ValueTile("humidity", '${this.weather.humidity}%'),
+                "Sonnenuntergang",
+                DateFormat('h:m a', 'de').format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                        this.weather.sunset * 1000))),
           ]),
         ],
       ),

@@ -24,7 +24,8 @@ class WeatherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Weather App',
+      title: 'Flutter Wetter App',
+      debugShowCheckedModeBanner: false,
       theme: AppStateContainer.of(context).theme,
       home: WeatherScreen(),
       routes: Routes.mainRoute,
@@ -53,7 +54,6 @@ class _AppStateContainerState extends State<AppStateContainer> {
   ThemeData _theme = Themes.getTheme(Themes.DARK_THEME_CODE);
   int themeCode = Themes.DARK_THEME_CODE;
   TemperatureUnit temperatureUnit = TemperatureUnit.celsius;
-
 
   @override
   initState() {

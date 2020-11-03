@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 enum OptionsMenu { changeCity, settings }
 
@@ -26,7 +27,7 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen>
     with TickerProviderStateMixin {
   WeatherBloc _weatherBloc;
-  String _cityName = 'bengaluru';
+  String _cityName = 'Zürich';
   AnimationController _fadeController;
   Animation<double> _fadeAnimation;
 
@@ -45,6 +46,7 @@ class _WeatherScreenState extends State<WeatherScreen>
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppStateContainer.of(context).theme.primaryColor,
@@ -53,7 +55,7 @@ class _WeatherScreenState extends State<WeatherScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                DateFormat('EEEE, d MMMM yyyy').format(DateTime.now()),
+                DateFormat('EEEE, d MMMM yyyy', 'de').format(DateTime.now()),
                 style: TextStyle(
                     color: AppStateContainer.of(context)
                         .theme
@@ -73,11 +75,11 @@ class _WeatherScreenState extends State<WeatherScreen>
                 itemBuilder: (context) => <PopupMenuEntry<OptionsMenu>>[
                       PopupMenuItem<OptionsMenu>(
                         value: OptionsMenu.changeCity,
-                        child: Text("change city"),
+                        child: Text("Stadt wechseln"),
                       ),
                       PopupMenuItem<OptionsMenu>(
                         value: OptionsMenu.settings,
-                        child: Text("settings"),
+                        child: Text("Einstellungen"),
                       ),
                     ])
           ],
@@ -103,11 +105,11 @@ class _WeatherScreenState extends State<WeatherScreen>
                     } else if (weatherState is WeatherError ||
                         weatherState is WeatherEmpty) {
                       String errorText =
-                          'There was an error fetching weather data';
+                          'Beim Abrufen der Wetterdaten ist ein Fehler aufgetreten.';
                       if (weatherState is WeatherError) {
                         if (weatherState.errorCode == 404) {
                           errorText =
-                              'We have trouble fetching weather for $_cityName';
+                              'Wir haben Probleme, Wetter für $_cityName zu bekommen.';
                         }
                       }
                       return Column(
@@ -130,7 +132,7 @@ class _WeatherScreenState extends State<WeatherScreen>
                           ),
                           FlatButton(
                             child: Text(
-                              "Try Again",
+                              "Versuchen Sie es nochmal",
                               style: TextStyle(
                                   color: AppStateContainer.of(context)
                                       .theme
@@ -161,11 +163,12 @@ class _WeatherScreenState extends State<WeatherScreen>
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            title: Text('Change city', style: TextStyle(color: Colors.black)),
+            title:
+                Text('Stadt wechseln', style: TextStyle(color: Colors.black)),
             actions: <Widget>[
               FlatButton(
                 child: Text(
-                  'ok',
+                  'OK',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
                 onPressed: () {
@@ -180,7 +183,7 @@ class _WeatherScreenState extends State<WeatherScreen>
                 _cityName = text;
               },
               decoration: InputDecoration(
-                  hintText: 'Name of your city',
+                  hintText: 'Name Ihrer Stadt',
                   hintStyle: TextStyle(color: Colors.black),
                   suffixIcon: GestureDetector(
                     onTap: () {
@@ -243,7 +246,7 @@ class _WeatherScreenState extends State<WeatherScreen>
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
-            title: Text('Location is disabled :(',
+            title: Text('Standort ist deaktiviert :(',
                 style: TextStyle(color: Colors.black)),
             actions: <Widget>[
               FlatButton(

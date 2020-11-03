@@ -1,11 +1,9 @@
-
 # Flutter Wetter App
 Eine Flutter App zum Anzeigen des aktuellen Wetterstatus.
 Diese App wurde von LonelyCpp entwickelt und von mir ins Deutsche übersetzt.
 
-![android](./screenshots/android.png?raw=true 'android')
-![ios](./screenshots/ios.gif?raw=true 'ios')
-![ios](./screenshots/ios_chart.gif?raw=true 'ios')
+![1](./screenshots/1.png?raw=true '1')
+![2](./screenshots/2.png?raw=true '2')
 
 ## Getting Started
 

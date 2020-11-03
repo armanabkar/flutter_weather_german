@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 class WeatherApiClient {
   static const baseUrl = 'http://api.openweathermap.org';
   final apiKey;
+  static const lang = "de";
   final http.Client httpClient;
 
   WeatherApiClient({@required this.httpClient, this.apiKey})
@@ -18,33 +19,38 @@ class WeatherApiClient {
   Future<String> getCityNameFromLocation(
       {double latitude, double longitude}) async {
     final url =
-        '$baseUrl/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';
+        '$baseUrl/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&lang=$lang';
     print('fetching $url');
     final res = await this.httpClient.get(url);
     if (res.statusCode != 200) {
-      throw HTTPException(res.statusCode, "unable to fetch weather data");
+      throw HTTPException(
+          res.statusCode, "Wetterdaten können nicht abgerufen werden.");
     }
     final weatherJson = json.decode(res.body);
     return weatherJson['name'];
   }
 
   Future<Weather> getWeatherData(String cityName) async {
-    final url = '$baseUrl/data/2.5/weather?q=$cityName&appid=$apiKey';
+    final url =
+        '$baseUrl/data/2.5/weather?q=$cityName&appid=$apiKey&lang=$lang';
     print('fetching $url');
     final res = await this.httpClient.get(url);
     if (res.statusCode != 200) {
-      throw HTTPException(res.statusCode, "unable to fetch weather data");
+      throw HTTPException(
+          res.statusCode, "Wetterdaten können nicht abgerufen werden.");
     }
     final weatherJson = json.decode(res.body);
     return Weather.fromJson(weatherJson);
   }
 
   Future<List<Weather>> getForecast(String cityName) async {
-    final url = '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
+    final url =
+        '$baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey&lang=$lang';
     print('fetching $url');
     final res = await this.httpClient.get(url);
     if (res.statusCode != 200) {
-      throw HTTPException(res.statusCode, "unable to fetch weather data");
+      throw HTTPException(
+          res.statusCode, "Wetterdaten können nicht abgerufen werden.");
     }
     final forecastJson = json.decode(res.body);
     List<Weather> weathers = Weather.fromForecastJson(forecastJson);

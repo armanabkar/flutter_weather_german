@@ -9,7 +9,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppStateContainer.of(context).theme.primaryColor,
-        title: Text("Settings"),
+        title: Text("Einstellung"),
       ),
       body: Container(
         padding: EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -41,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Dark",
+                    "Dunkel",
                     style: TextStyle(
                         color: AppStateContainer.of(context).theme.accentColor),
                   ),
@@ -76,7 +76,7 @@ class SettingsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "Light",
+                    "Hell",
                     style: TextStyle(
                         color: AppStateContainer.of(context).theme.accentColor),
                   ),
@@ -96,7 +96,7 @@ class SettingsScreen extends StatelessWidget {
               padding:
                   const EdgeInsets.only(top: 15, left: 8, right: 8, bottom: 8),
               child: Text(
-                "Unit",
+                "Einheit",
                 style: TextStyle(
                   color: AppStateContainer.of(context).theme.accentColor,
                   fontWeight: FontWeight.bold,
